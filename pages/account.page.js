@@ -12,8 +12,6 @@ class AccountPage extends BasePage {
      */
      async obtenerTextoBienvenida() {
         addStep('Obtener texto de bienvenida')
-        console.log('holi');
-        console.log(await this.welcomeMsg.getText());
         return await this.welcomeMsg.getText();
     }
 
