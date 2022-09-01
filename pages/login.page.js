@@ -17,8 +17,6 @@ class LoginPage extends BasePage {
      */
      async obtenerHeader() {
         addStep('Obtener header de la página')
-        console.log('holi');
-        console.log(await this.header.getText());
         return await this.header.getText();
     }
 

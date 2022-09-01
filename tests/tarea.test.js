@@ -4,6 +4,7 @@ import DATOS from '../datos/articulos';
 import ProductoPage from '../pages/producto.page';
 import LoginPage from '../pages/login.page';
 import AccountPage from '../pages/account.page';
+import debug from 'webdriverio/build/commands/browser/debug';
 
 describe('Tarea', () => {
 
@@ -28,8 +29,8 @@ describe('Tarea', () => {
         await BusquedaPage.ingresarAlResultado();
         await ProductoPage.validarTitulo('Blouse');
 
-        await ProductoPage.seleccionarTamañoPorIndice(2);
-        await expect( await ProductoPage.obtenerTextoDelTamaño()).to.equal('L');
+        await ProductoPage.seleccionarTamañoPorTexto('S');
+        await expect( await ProductoPage.obtenerTamañoSeleccionado()).to.equal('S');
 
     }); 
 
@@ -60,15 +61,24 @@ describe('Tarea', () => {
         await BusquedaPage.ingresarAlResultado();
         await ProductoPage.validarTitulo('Blouse');
 
-        await ProductoPage.seleccionarTamañoPorIndice(2);
-        await expect( await ProductoPage.obtenerTextoDelTamaño()).to.equal('L');
+        await ProductoPage.seleccionarTamañoPorTexto('S');
 
         await ProductoPage.agregarAlCarrito();
+        await (await ProductoPage.cartMsg).waitForDisplayed();
+        await expect(await ProductoPage.obtenerMensajeCarrito()).to.equal('Product successfully added to your shopping cart');
     }); 
 
 
     it('Debería agregar a la Wishlist', async () => {
         await HomePage.abrir('/');
+
+        await expect(
+            await browser.checkElement(await HomePage.headerContainer, "automationpractice-headerContainer", {
+           /* opciones de configuración para el elemento */
+            }),
+            "Error: la barra de navegación de la página no coincide con la original"
+        ).equal(0);
+
         await HomePage.irAlLogin();
         await expect( await LoginPage.obtenerHeader()).to.equal('AUTHENTICATION');
 

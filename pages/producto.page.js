@@ -4,11 +4,13 @@ import BasePage from "./base.page";
 class ProductoPage extends BasePage {
 
     //WebElements//
-    get dropDownSize(){ return $('#group_1') }
     get titulo() { return $('h1') }
     get addToCart() { return $('[name= Submit]')}
+    get cartMsg() { return $('.layer_cart_product h2')}
     get addToWishlist() { return $('#wishlist_button')}
     get wishlistMsg() { return $('.fancybox-error')}
+    get isSelected() { return $('[style*="user-select"]')}
+    
 
     //---------------------------------//
 
@@ -24,24 +26,29 @@ class ProductoPage extends BasePage {
         );
     }
 
+    /**
+    * Seleccionar un tamaño
+    * @param {Object} size a seleccionar
+    */
+    selectSize(size) { return $(`[title= "${size}"]`)}
 
     /**
     * Seleccionar un tamaño por indice
-    * @param {Object} indice a buscar
+    * @param {Object} size a buscar
     */
-    async seleccionarTamañoPorIndice(indice) {
-        await this.dropDownSize.selectByIndex(indice);
+    async seleccionarTamañoPorTexto(size) {
+        await this.selectSize(size);
     }
-
 
     /**
     * Obtener texto del tamaño
     * 
     */
-    async obtenerTextoDelTamaño() {
-        let dropDownValue = await this.dropDownSize.getValue();
-        return await $('select option[value="'+ dropDownValue + '"]').getText();
+     async obtenerTamañoSeleccionado() {
+        return await this.isSelected.getText();
     }
+
+   
 
 
     /**
@@ -68,6 +75,10 @@ class ProductoPage extends BasePage {
     */
     async obtenerMensajeWishlist() {
         return await this.wishlistMsg.getText();
+    }
+
+    async obtenerMensajeCarrito() {
+        return await (await this.cartMsg).getText();
     }
 }
 

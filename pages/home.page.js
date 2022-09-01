@@ -5,6 +5,7 @@ class HomePage extends BasePage {
     //WebElements
     get barraDeBusqueda(){ return $('[name="search_query"]') }
     get login(){ return $('.login') }
+    get headerContainer(){ return $('.header-container') }
  
     // ------------------------------------------------- //
 
